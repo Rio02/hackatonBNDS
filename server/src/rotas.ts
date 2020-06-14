@@ -29,6 +29,7 @@ rotas.post('/cadastro', async (request, response) => { //CRINADO UM CADASTRO DE 
         complemento,
         cidade,
         uf,
+        bairro,
         items
     } = request.body;
 
@@ -44,7 +45,8 @@ rotas.post('/cadastro', async (request, response) => { //CRINADO UM CADASTRO DE 
         numero,
         complemento,
         cidade,
-        uf
+        uf,
+        bairro
     }
 
     //Retorna id 
@@ -86,7 +88,7 @@ rotas.get('/cadastro/:id', async (request, response) => { //LISTAR LOJA ESPECÍF
 });
 
 rotas.get('/cadastro', async (request, response) => { //FILTRANDO CIDADE,ESTADO,ITEMS
-    const { cidade, uf, items } = request.query;
+    const { cidade, uf, bairro, items } = request.query;
 
     const analisandoItems = String(items).split(',').map(item => Number(item.trim()));
 
@@ -95,6 +97,7 @@ rotas.get('/cadastro', async (request, response) => { //FILTRANDO CIDADE,ESTADO,
     .whereIn('loja_items.item_id', analisandoItems)
     .where('cidade', String(cidade))
     .where('uf', String(uf))
+    .where('bairro', String(bairro))
     .distinct()
     .select('lojas.*');
 
